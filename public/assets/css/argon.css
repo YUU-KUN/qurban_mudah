@@ -63,6 +63,8 @@
 
 html
 {
+    height: 100%;
+    width: 100%;
     font-family: sans-serif;
     line-height: 1.15;
 
@@ -86,6 +88,8 @@ section
 
 body
 {
+    height: 100%;
+    width: 100%;
     font-family: Open Sans, sans-serif;
     font-size: 1rem;
     font-weight: 400;

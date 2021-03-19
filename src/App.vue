@@ -6,6 +6,7 @@
     </div> -->
       <router-view name="sidebar"></router-view>
       <div class="main-content" id="panel">
+        <!-- <router-view name="login"></router-view> -->
         <router-view name="topnav"></router-view>
         <!-- Header -->
         <div class="header bg-primary pb-6">
@@ -20,6 +21,8 @@
           <router-view name="footer"></router-view>
         </div>
       </div>
+
+    <router-view name="login"></router-view>
   </div>
 </template>
 

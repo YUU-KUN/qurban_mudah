@@ -22,13 +22,13 @@
                </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="icons.html">
+              <router-link to="siswa" class="nav-link" >
                 <i class="ni ni-planet text-orange"></i>
                 <span class="nav-link-text">Siswa</span>
-              </a>
+              </router-link>
             </li>
             <li class="nav-item">
-                <router-link class="nav-link" to="/petugas">
+                <router-link to="petugas" class="nav-link" >
               <!-- <a class="nav-link" href="icons.html"> -->
                 <i class="ni ni-planet text-orange"></i>
                 <span class="nav-link-text">Petugas</span>
@@ -36,34 +36,44 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="map.html">
+              <router-link to="kelas" class="nav-link">
+              <!-- <a class="nav-link" href="map.html"> -->
                 <i class="ni ni-pin-3 text-primary"></i>
                 <span class="nav-link-text">Kelas</span>
-              </a>
+              <!-- </a> -->
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="profile.html">
+              <router-link to="pembayaran" class="nav-link">
+              <!-- <a class="nav-link" href="profile.html"> -->
                 <i class="ni ni-single-02 text-yellow"></i>
                 <span class="nav-link-text">Pembayaran</span>
-              </a>
+              <!-- </a> -->
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="profile.html">
+              <router-link to="historyPembayaran" class="nav-link">
+              <!-- <a class="nav-link" href="profile.html"> -->
                 <i class="ni ni-bullet-list-67 text-default"></i>
                 <span class="nav-link-text">History Pembayaran</span>
-              </a>
+              <!-- </a> -->
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="tables.html">
+              <router-link to="spp" class="nav-link">
+              <!-- <a class="nav-link" href="tables.html"> -->
                 <i class="ni ni-bullet-list-67 text-default"></i>
                 <span class="nav-link-text">SPP</span>
-              </a>
+              <!-- </a> -->
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="login.html">
+              <router-link to="login" class="nav-link">
+              <!-- <a class="nav-link" href="login.html"> -->
                 <i class="ni ni-key-25 text-info"></i>
                 <span class="nav-link-text">Login</span>
-              </a>
+              <!-- </a> -->
+              </router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="register.html">

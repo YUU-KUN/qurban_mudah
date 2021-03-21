@@ -37,7 +37,8 @@
                       {{siswa.nama}}
                     </td>
                     <td>
-                      {{siswa.kelas.nama_kelas}}
+                      <span v-if="!siswa.kelas">-</span>
+                      <span v-else>{{siswa.kelas.nama_kelas}}</span>
                     </td>
                     <td>
                       {{siswa.alamat}}
@@ -180,8 +181,9 @@ export default {
             kelas: '',
             id_kelas: '',
             nis: '',
+            nama_siswa:'',
             spp: '',
-            nama_siswa: '',
+            nama_kelas: '',
             no_telp: '',
             alamat: '',
             id_spp: '',
@@ -196,21 +198,21 @@ export default {
     },
     methods: {
         getSiswa() {
-            this.axios.get('administrator/siswa').then(response => {
+            this.axios.get('siswa').then(response => {
                 this.siswa = response.data.data
             }).catch(error => {
                 console.log(error.response);
             })
         },
         getKelas() {
-            this.axios.get('administrator/kelas').then(response => {
+            this.axios.get('kelas').then(response => {
                 this.kelas = response.data.data
             }).catch(error => {
                 console.log(error.response);
             })
         },
         getSPP() {
-            this.axios.get('administrator/spp').then(response => {
+            this.axios.get('spp').then(response => {
                 this.spp = response.data
             }).catch(error => {
                 console.log(error.response);
@@ -218,7 +220,7 @@ export default {
         },
         getDetailSiswa(index) {
             const nisn = this.siswa[index].nisn
-            this.axios.get('administrator/siswa/'+nisn).then(response => {
+            this.axios.get('siswa/'+nisn).then(response => {
                 this.detailSiswa = response.data
             })
         },
@@ -253,7 +255,7 @@ export default {
             id_spp: this.id_spp
           }
           if (this.action === 'create') {
-            this.axios.post('administrator/siswa', dataSiswa).then(response => {
+            this.axios.post('siswa', dataSiswa).then(response => {
               this.alertSuccess()
               console.log(response);
               this.getSiswa()
@@ -262,7 +264,7 @@ export default {
               console.log(error.response)
             })
           } else {
-            this.axios.put('administrator/siswa/'+this.nisn, dataSiswa).then(response => {
+            this.axios.put('siswa/'+this.nisn, dataSiswa).then(response => {
               this.alertSuccess()
               console.log(response)
               this.getSiswa()
@@ -275,7 +277,7 @@ export default {
         deleteSiswa(index) {
           this.action = 'delete'
           this.nisn = this.siswa[index].nisn
-          this.axios.delete('administrator/siswa/'+this.nisn).then(response => {
+          this.axios.delete('siswa/'+this.nisn).then(response => {
             this.alertSuccess()
             console.log(response);
             this.getSiswa()

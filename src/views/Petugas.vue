@@ -169,13 +169,13 @@ export default {
     },
     methods: {
         getPetugas() {
-            this.axios.get('administrator/petugas').then(response => {
+            this.axios.get('petugas').then(response => {
                 this.petugas = response.data
             })
         },
         getDetailPetugas(index) {
             const id_petugas = this.petugas[index].id_petugas
-            this.axios.get('administrator/petugas/'+id_petugas).then(response => {
+            this.axios.get('petugas/'+id_petugas).then(response => {
                 this.detailPetugas = response.data
             })
         },
@@ -203,7 +203,7 @@ export default {
             level: this.level
           }
           if (this.action === 'create') {
-            this.axios.post('administrator/petugas', dataPetugas).then(response => {
+            this.axios.post('petugas', dataPetugas).then(response => {
               this.alertSuccess()
               console.log(response);
               this.getPetugas()
@@ -212,7 +212,7 @@ export default {
               console.log(error.response)
             })
           } else {
-            this.axios.put('administrator/petugas/'+this.id_petugas, dataPetugas).then(response => {
+            this.axios.put('petugas/'+this.id_petugas, dataPetugas).then(response => {
               this.alertSuccess()
               console.log(response)
               this.getPetugas()
@@ -225,7 +225,7 @@ export default {
         deletePetugas(index) {
           this.action = 'delete'
           const id_petugas = this.petugas[index].id_petugas
-          this.axios.delete('administrator/petugas/'+id_petugas).then(response => {
+          this.axios.delete('petugas/'+id_petugas).then(response => {
             this.alertSuccess()
             console.log(response);
             this.getPetugas()

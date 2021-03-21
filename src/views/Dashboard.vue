@@ -375,22 +375,24 @@ export default {
   },
   methods: {
     getTotalPetugas() {
-      this.axios.get('administrator/petugas').then(response => {
+      this.axios.get('petugas').then(response => {
         this.totalPetugas = response.data.length
+      }).catch(error => {
+        console.log(error.response);
       })
     },
     getTotalSiswa() {
-      this.axios.get('administrator/siswa').then(response => {
+      this.axios.get('siswa').then(response => {
         this.totalSiswa = response.data.data.length
       })
     },
     getTotalKelas() {
-      this.axios.get('administrator/kelas').then(response => {
+      this.axios.get('kelas').then(response => {
         this.totalKelas = response.data.data.length
       })
     },
     getTotalSPP() {
-      this.axios.get('administrator/spp').then(response => {
+      this.axios.get('spp').then(response => {
         this.totalSPP = response.data.length
       })
     },

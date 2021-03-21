@@ -49,6 +49,7 @@
                         <button class="btn btn-success" data-toggle="modal" :data-target="'#modaldetailPembayaran'+index" @click="getDetailPembayaran(index)">Detail</button>
                         <button class="btn btn-primary" @click="updatePembayaran(index)" data-toggle="modal" data-target="#modalPembayaran" >Edit</button>
                         <button class="btn btn-danger" @click="deletePembayaran(index)">Delete</button>
+                        <button class="btn btn-success" @click="invoice(index)">Cetak Invoice</button>
                     </td>
 
                      <!--MODAL -->
@@ -111,7 +112,7 @@
                       <label class="form-control-label" for="input-nama-siswa">Nama Siswa</label>
                       <select id="input-nama-siswa" class="form-control" v-model="nisn">
                           <option value="" disabled selected>Pilih Siswa</option>
-                          <option v-for="(siswa, index) in siswa" :key="index" :value="siswa.nisn" >{{siswa.nama}} - {{siswa.kelas.nama_kelas}} {{siswa.kelas.kompetensi_keahlian}}</option>
+                          <option v-for="(siswa, index) in siswa" :key="index" :value="siswa.nisn" >{{siswa.nama}} - <span v-if="siswa.kelas">{{siswa.kelas.nama_kelas}} {{siswa.kelas.kompetensi_keahlian}}</span> <span v-else>(Kelas belum ditambahkan)</span></option>
                       </select>
                     </div>
                   </div>
@@ -164,7 +165,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text sm" >Rp</span>
                             </div>
-                            <input type="text" id="input-nominal-pembayaran" class="form-control" placeholder="500000">
+                            <input type="text" id="input-nominal-pembayaran" class="form-control" placeholder="500000" v-model="jumlah_bayar">
                             <div class="input-group-append">
                               <span class="input-group-text">,00</span>
                             </div>
@@ -190,12 +191,156 @@
           </div>
         </div>
 
+        <vue-html2pdf
+        :show-layout="false"
+        :float-layout="true"
+        :enable-download="false"
+        :preview-modal="true"
+        :paginate-elements-by-height="1240"
+        filename="Invoice Pembayaran"
+        :pdf-quality="2"
+        :manual-pagination="false"
+        pdf-format="a4"
+        pdf-orientation="landscape"
+        pdf-content-width="3000"
+ 
+        @hasStartedGeneration="hasStartedGeneration()"
+        @hasGenerated="hasGenerated($event)"
+        ref="html2Pdf"
+    >
+        <section slot="pdf-content">
+            <div class="container-fluid" v-if="pdf">
+        <div class="row">
+            <!-- <table class="table">
+                <tr>
+                    <td>
+                        <img height="120px" src="../../public/assets/img/theme/vue.jpg" alt="Logo Sekolah">
+                    </td>
+                    <td>
+                        <p class="mb-2 school-name">SPPmu.id</p>
+                        <b>SPPmu.id</b>
+                        <p style="font-size: 12px;">Telp. {{pdf.siswa.no_telp}} </p>
+                    </td>
+                </tr>
+            </table> -->
+            <div class="col">
+              <img height="120px" src="../../public/assets/img/theme/vue.jpg" alt="Logo Sekolah">
+            </div>
+        </div>
+        <div class="row">
+            <table class="table mb-0">
+                <tr>
+                    <td style="width: 80%">
+                        <h3>
+                            <span class="" style="font-size: 18px;">e-Kwitansi - #{{pdf.id_pembayaran}}  </span>
+                           
+                        </h3>
+                    </td>
+                    <td class="text-right">
+                        <h3>
+                            <span class="badge badge-success">BERHASIL</span>
+                        </h3>
+                    </td>
+                </tr>
+            </table> 
+        </div>        
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <th>
+                        <p class="mb-0">NIS:</p>
+                        <p class="ml-0 mb-0 font-weight-bold"><span v-if="pdf.siswa.nis">{{pdf.siswa.nis}}</span> <span v-else>-</span></p>
+                    </th>
+                    <th>
+                        <p class="mb-0">Nama Murid:</p>
+                        <p class="ml-0 mb-0 font-weight-bold" style="text-transform: capitalize">{{pdf.siswa.nama.toUpperCase()}}</p>
+                    </th>
+                    <th>
+                        <p class="mb-0">Kelas:</p>
+                        <p class="ml-0 mb-0 font-weight-bold">
+                            <span v-if="pdf.kelas">{{pdf.kelas.nama_kelas}} - {{pdf.kelas.kompetensi_keahlian}}</span><span v-else>-</span>
+                        </p>
+                    </th>
+                    <th>
+                        <p class="mb-0">Nomor Telepon:</p>
+                        <p class="ml-0 mb-0 font-weigt-bold" style="text-transform: capitalize">{{pdf.siswa.no_telp}}</p>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <table class="table" border="2">
+                <tr>
+                    <th>
+                        <p class="font-weight-bold inline">No.</p>
+                    </th>
+                    <th>
+                        <p class="font-weight-bold inline">Jenis Pembayaran</p>
+                    </th>
+                    <th>
+                        <p class="font-weight-bold inline">Tanggal Pembayaran</p>
+                    </th>
+                    <th>
+                        <p class="font-weight-bold inline">Penerima</p>
+                    </th>
+                    <th>
+                        <p class="font-weight-bold inline">Jumlah</p>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        1.
+                    </td>
+                    <td>
+                        SPP
+                    </td>
+                    <td>
+                        {{pdf.updated_at | formatDate}}
+                    </td>
+                    <td style="text-transform: capitalize">
+                        {{pdf.petugas.nama_petugas.toUpperCase()}}
+                    </td>
+                    <td>
+                        {{pdf.jumlah_bayar | rupiah}}
+                    </td>  
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <td class="text-right">
+                    <p class="text-primary mb-0">Total Pembayaran</p>
+                    <h3>{{pdf.jumlah_bayar | rupiah}}</h3>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <td class="text-right">
+                        <p class="font-weight-bold text-footer">Powered by &nbsp;<img class="sidigs-powered" src="../../public/assets/img/theme/vue.jpg" alt="Sidigs logo" ></p>
+                        <!-- <p class="font-weight-bold text-footer">Powered by <b>SIDIGS</b></p> -->
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+        </section>
+    </vue-html2pdf>
+<!-- <pre>{{pdf}}</pre> -->
       </div>
 </template>
 
 <script>
 import moment from 'moment'
+import VueHtml2pdf from 'vue-html2pdf'
+
 export default {
+  components: {
+        VueHtml2pdf
+    },
     data() {
         return {
             alert: false,
@@ -223,35 +368,48 @@ export default {
 
             // alert
             alertVariant: '',
-            alertMessage: ''
+            alertMessage: '',
+
+            pdf: '',
         }
     },
     methods: {
         getPembayaran() {
-            this.axios.get('administrator/pembayaran').then(response => {
+            this.axios.get('pembayaran').then(response => {
                 this.pembayaran = response.data
             })
         },
         getPetugas() {
-            this.axios.get('administrator/petugas').then(response => {
+            this.axios.get('petugas').then(response => {
                 this.petugas = response.data
             })
         },
         getSiswa() {
-            this.axios.get('administrator/siswa').then(response => {
+            this.axios.get('siswa').then(response => {
                 this.siswa = response.data.data
             })
         },
         getSPP() {
-            this.axios.get('administrator/spp').then(response => {
+            this.axios.get('spp').then(response => {
                 this.spp = response.data
             })
         },
         getDetailPembayaran(index) {
             this.id_pembayaran = this.pembayaran[index].id_pembayaran
-            this.axios.get('administrator/pembayaran/'+this.id_pembayaran).then(response => {
+            this.axios.get('pembayaran/'+this.id_pembayaran).then(response => {
                 this.detailPembayaran = response.data
             })
+        },
+        invoice(index) {
+          const id_pembayaran = this.pembayaran[index].id_pembayaran
+          this.axios.get('invoice/'+id_pembayaran).then(response => {
+            this.pdf = response.data.data
+            console.log('nisnya '+response.data.data.siswa.nis)
+            console.log(response.data.message)
+            this.$refs.html2Pdf.generatePdf()
+          }).catch(error => {
+            console.log(error.response);
+          })
         },
         createPembayaran() {
           this.action = 'create'
@@ -272,21 +430,13 @@ export default {
           this.action = 'update'
           this.buttonClass = 'btn btn-primary'
           this.id_pembayaran = this.pembayaran[index].id_pembayaran
-          console.log(this.id_pembayaran);
           this.id_petugas = this.pembayaran[index].id_petugas
-          console.log(this.id_petugas);
           this.nisn = this.pembayaran[index].nisn
-          console.log(this.nisn);
           this.id_spp = this.pembayaran[index].id_spp
-          console.log(this.id_spp);
           this.tanggal = this.pembayaran[index].tgl_bayar
-          console.log(this.tanggal);
           this.bulan = this.pembayaran[index].bulan_dibayar
-          console.log(this.bulan);
           this.tahun = this.pembayaran[index].tahun_dibayar
-          console.log(this.tahun);
           this.jumlah_bayar = this.pembayaran[index].jumlah_bayar
-          console.log(this.jumlah_bayar);
         },
         save() {
           const dataPembayaran = {
@@ -299,7 +449,7 @@ export default {
             jumlah_bayar: this.jumlah_bayar,
           }
           if (this.action === 'create') {
-            this.axios.post('administrator/pembayaran', dataPembayaran).then(response => {
+            this.axios.post('pembayaran', dataPembayaran).then(response => {
               this.alertSuccess()
               console.log(response);
               this.getPembayaran()
@@ -308,7 +458,7 @@ export default {
               console.log(error.response)
             })
           } else {
-            this.axios.put('administrator/pembayaran/'+this.id_pembayaran, dataPembayaran).then(response => {
+            this.axios.put('pembayaran/'+this.id_pembayaran, dataPembayaran).then(response => {
               this.alertSuccess()
               console.log(response)
               this.getPembayaran()
@@ -321,7 +471,7 @@ export default {
         deletePembayaran(index) {
           this.action = 'delete'
           this.id_pembayaran = this.pembayaran[index].id_pembayaran
-          this.axios.delete('administrator/pembayaran/'+this.id_pembayaran).then(response => {
+          this.axios.delete('pembayaran/'+this.id_pembayaran).then(response => {
             this.alertSuccess()
             console.log(response);
             this.getPembayaran()

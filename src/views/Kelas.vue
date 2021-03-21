@@ -145,13 +145,13 @@ export default {
     },
     methods: {
         getKelas() {
-            this.axios.get('administrator/kelas').then(response => {
+            this.axios.get('kelas').then(response => {
                 this.kelas = response.data.data
             })
         },
         getDetailKelas(index) {
             this.id_kelas = this.kelas[index].id_kelas
-            this.axios.get('administrator/kelas/'+this.id_kelas).then(response => {
+            this.axios.get('kelas/'+this.id_kelas).then(response => {
                 this.detailKelas = response.data.data
             })
         },
@@ -174,7 +174,7 @@ export default {
             kompetensi_keahlian: this.kompetensi_keahlian,
           }
           if (this.action === 'create') {
-            this.axios.post('administrator/kelas', dataKelas).then(response => {
+            this.axios.post('kelas', dataKelas).then(response => {
               this.alertSuccess()
               console.log(response);
               this.getKelas()
@@ -183,7 +183,7 @@ export default {
               console.log(error.response)
             })
           } else {
-            this.axios.put('administrator/kelas/'+this.id_kelas, dataKelas).then(response => {
+            this.axios.put('kelas/'+this.id_kelas, dataKelas).then(response => {
               this.alertSuccess()
               console.log(response)
               this.getKelas()
@@ -196,7 +196,7 @@ export default {
         deleteKelas(index) {
           this.action = 'delete'
           this.id_kelas = this.kelas[index].id_kelas
-          this.axios.delete('administrator/kelas/'+this.id_kelas).then(response => {
+          this.axios.delete('kelas/'+this.id_kelas).then(response => {
             this.alertSuccess()
             console.log(response);
             this.getKelas()

@@ -18,11 +18,11 @@
         </div>
         <div class="container-fluid mt--6">
           <router-view/>
-          <router-view name="footer"></router-view>
+          <!-- footer was here-->
         </div>
       </div>
 
-    <router-view name="login"></router-view>
+    <router-view name="auth"></router-view>
   </div>
 </template>
 

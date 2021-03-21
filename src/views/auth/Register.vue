@@ -27,9 +27,20 @@
           <div class="card bg-secondary border-0 mb-0">
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
-                  Please sign in to continue
+                  Please sign up to continue
               </div>
+                <div class="alert alert-success" role="alert" v-if="info">
+                    <strong>Success!</strong> {{message}}
+                </div>
               <form role="form">
+                <div class="form-group mb-3">
+                  <div class="input-group input-group-merge input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Nama Petugas" type="text" v-model="nama_petugas">
+                  </div>
+                </div>
                 <div class="form-group mb-3">
                   <div class="input-group input-group-merge input-group-alternative">
                     <div class="input-group-prepend">
@@ -46,24 +57,16 @@
                     <input class="form-control" placeholder="Password" type="password" v-model="password">
                   </div>
                 </div>
-                <div class="custom-control custom-control-alternative custom-checkbox">
+                <!-- <div class="custom-control custom-control-alternative custom-checkbox">
                   <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
                   <label class="custom-control-label" for=" customCheckLogin">
                     <span class="text-muted">Remember me</span>
                   </label>
-                </div>
+                </div> -->
                 <div class="text-center">
-                  <button type="button" @click="login" class="btn btn-primary my-4">Sign in</button>
+                  <button type="button" @click="register" class="btn btn-primary my-4">Sign Up</button>
                 </div>
               </form>
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-6">
-              <a href="#" class="text-light"><small>Forgot password?</small></a>
-            </div>
-            <div class="col-6 text-right">
-              <a href="#" class="text-light"><small>Create new account</small></a>
             </div>
           </div>
         </div>
@@ -78,22 +81,29 @@ export default {
     data() {
         return {
             username: '',
+            nama_petugas: '',
             password: '',
+            message: '',
+            info: false,
         }
     },
     methods: {
-        login() {
+        register() {
           console.log('Tunggu sebentar ya..');
-            const dataLogin = {
+            this.info = true
+            const dataRegister = {
+                nama_petugas: this.nama_petugas,
                 username: this.username,
                 password: this.password,
             }
-            this.$store.dispatch('login', dataLogin)
+            this.$store.dispatch('register', dataRegister)
             .then(response => {
-              this.$router.push('/')
-            })
-            .catch(error => {
-                console.log(error);
+                this.message = response.data.message
+                setTimeout(this.$router.push('/login'), 3000)
+                this.info = false
+            }).catch(error => {
+                this.message = error.response
+                setTimeout(this.info = false, 4000)
             })
         }
     }

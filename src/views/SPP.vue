@@ -145,13 +145,13 @@ export default {
     },
     methods: {
         getSPP() {
-            this.axios.get('administrator/spp').then(response => {
+            this.axios.get('spp').then(response => {
                 this.spp = response.data
             })
         },
         getdetailSPP(index) {
             this.id_spp = this.spp[index].id_spp
-            this.axios.get('administrator/spp/'+this.id_spp).then(response => {
+            this.axios.get('spp/'+this.id_spp).then(response => {
                 this.detailSPP = response.data
             })
         },
@@ -175,7 +175,7 @@ export default {
             nominal: this.nominal,
           }
           if (this.action === 'create') {
-            this.axios.post('administrator/spp', dataSPP).then(response => {
+            this.axios.post('spp', dataSPP).then(response => {
               this.alertSuccess()
               console.log(response);
               this.getSPP()
@@ -184,7 +184,7 @@ export default {
               console.log(error.response)
             })
           } else {
-            this.axios.put('administrator/spp/'+this.id_spp, dataSPP).then(response => {
+            this.axios.put('spp/'+this.id_spp, dataSPP).then(response => {
               this.alertSuccess()
               console.log(response)
               this.getSPP()
@@ -197,7 +197,7 @@ export default {
         deleteSPP(index) {
           this.action = 'delete'
           this.id_spp = this.spp[index].id_spp
-          this.axios.delete('administrator/spp/'+this.id_spp).then(response => {
+          this.axios.delete('spp/'+this.id_spp).then(response => {
             this.alertSuccess()
             console.log(response);
             this.getSPP()

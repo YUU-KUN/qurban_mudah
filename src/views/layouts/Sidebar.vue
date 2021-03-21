@@ -13,12 +13,11 @@
         <div class="collapse navbar-collapse" id="sidenav-collapse-main">
           <!-- Nav items -->
           <ul class="navbar-nav">
+            <span v-if="admin">
             <li class="nav-item">
                 <router-link class="nav-link" to="/">
-              <!-- <a class="nav-link active" href="dashboard.html"> -->
                 <i class="ni ni-tv-2 text-primary"></i>
                 <span class="nav-link-text">Dashboard</span>
-              <!-- </a> -->
                </router-link>
             </li>
             <li class="nav-item">
@@ -29,62 +28,33 @@
             </li>
             <li class="nav-item">
                 <router-link to="petugas" class="nav-link" >
-              <!-- <a class="nav-link" href="icons.html"> -->
                 <i class="ni ni-planet text-orange"></i>
                 <span class="nav-link-text">Petugas</span>
-              <!-- </a> -->
               </router-link>
             </li>
             <li class="nav-item">
               <router-link to="kelas" class="nav-link">
-              <!-- <a class="nav-link" href="map.html"> -->
                 <i class="ni ni-pin-3 text-primary"></i>
                 <span class="nav-link-text">Kelas</span>
-              <!-- </a> -->
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="pembayaran" class="nav-link">
-              <!-- <a class="nav-link" href="profile.html"> -->
-                <i class="ni ni-single-02 text-yellow"></i>
-                <span class="nav-link-text">Pembayaran</span>
-              <!-- </a> -->
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="historyPembayaran" class="nav-link">
-              <!-- <a class="nav-link" href="profile.html"> -->
-                <i class="ni ni-bullet-list-67 text-default"></i>
-                <span class="nav-link-text">History Pembayaran</span>
-              <!-- </a> -->
               </router-link>
             </li>
             <li class="nav-item">
               <router-link to="spp" class="nav-link">
-              <!-- <a class="nav-link" href="tables.html"> -->
                 <i class="ni ni-bullet-list-67 text-default"></i>
                 <span class="nav-link-text">SPP</span>
-              <!-- </a> -->
+              </router-link>
+            </li>
+            </span>
+            <li class="nav-item">
+              <router-link to="pembayaran" class="nav-link">
+                <i class="ni ni-single-02 text-yellow"></i>
+                <span class="nav-link-text">Pembayaran</span>
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="login" class="nav-link">
-              <!-- <a class="nav-link" href="login.html"> -->
-                <i class="ni ni-key-25 text-info"></i>
-                <span class="nav-link-text">Login</span>
-              <!-- </a> -->
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="register.html">
-                <i class="ni ni-circle-08 text-pink"></i>
-                <span class="nav-link-text">Register</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="upgrade.html">
+              <a href="" @click="logout" class="nav-link" >
                 <i class="ni ni-send text-dark"></i>
-                <span class="nav-link-text">Upgrade</span>
+                <span class="nav-link-text">Logout</span>
               </a>
             </li>
           </ul>
@@ -96,7 +66,31 @@
 
 <script>
 export default {
-
+  data() {
+    return {
+      admin: false
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout').then(response => {
+        console.log(response)
+        console.log('Berhasil Logout')
+      }).catch(error => {
+        console.log(error.response)
+        console.log('Gagal Logout')
+      })
+    },
+    cekLevel() {
+      console.log(localStorage.getItem('Role'));
+      if (localStorage.getItem('Role') === 'admin') {
+        this.admin = true
+      }
+    }
+  },
+  mounted() {
+    this.cekLevel()
+  }
 }
 </script>
 

@@ -5,7 +5,7 @@
             <!-- Card header -->
             <div class="card-header border-0">
               <div class="alert alert-dismissible fade show" :class="alertVariant" role="alert" v-show="alert">
-                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                <!-- <span class="alert-icon"><i class="ni ni-like-2"></i></span> -->
                 <span class="alert-text"><strong>{{alertMessage}}</strong></span>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="!alert">
                     <span aria-hidden="true">&times;</span>

@@ -5,7 +5,7 @@
             <!-- Card header -->
             <div class="card-header border-0">
               <div class="alert alert-dismissible fade show" :class="alertVariant" role="alert" v-show="alert">
-                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                <!-- <span class="alert-icon"><i class="ni ni-like-2"></i></span> -->
                 <span class="alert-text"><strong>{{alertMessage}}</strong></span>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="!alert">
                     <span aria-hidden="true">&times;</span>
@@ -49,7 +49,7 @@
                         <button class="btn btn-success" data-toggle="modal" :data-target="'#modaldetailPembayaran'+index" @click="getDetailPembayaran(index)">Detail</button>
                         <button class="btn btn-primary" @click="updatePembayaran(index)" data-toggle="modal" data-target="#modalPembayaran" >Edit</button>
                         <button class="btn btn-danger" @click="deletePembayaran(index)">Delete</button>
-                        <button class="btn btn-success" @click="invoice(index)">Cetak Invoice</button>
+                        <button v-if="admin" class="btn btn-success" @click="invoice(index)">Cetak Invoice</button>
                     </td>
 
                      <!--MODAL -->
@@ -98,7 +98,7 @@
             <div class="modal-body">
               <form> 
                 <div class="col">
-                  <div class="form-group">
+                  <div class="form-group" v-if="action === 'update'">
                     <div class="row">
                       <label class="form-control-label" for="input-nama-petugas">Nama Petugas</label>
                       <select id="input-nama-petugas" class="form-control" v-model="id_petugas">
@@ -150,7 +150,7 @@
                   </div> -->
                   <div class="form-group">
                     <div class="row">
-                      <label class="form-control-label" for="input-spp">SPP</label>
+                      <label class="form-control-labelD" for="input-spp">SPP</label>
                       <select id="input-spp" class="form-control" v-model="id_spp">
                           <option value="" disabled selected>Pilih SPP</option>
                           <option v-for="(spp, index) in spp" :key="index" :value="spp.id_spp" >{{spp.tahun}} - {{spp.nominal | rupiah}}</option>
@@ -275,9 +275,6 @@
                         <p class="font-weight-bold inline">No.</p>
                     </th>
                     <th>
-                        <p class="font-weight-bold inline">Jenis Pembayaran</p>
-                    </th>
-                    <th>
                         <p class="font-weight-bold inline">Tanggal Pembayaran</p>
                     </th>
                     <th>
@@ -290,9 +287,6 @@
                 <tr>
                     <td>
                         1.
-                    </td>
-                    <td>
-                        SPP
                     </td>
                     <td>
                         {{pdf.updated_at | formatDate}}
@@ -329,7 +323,7 @@
     </div>
         </section>
     </vue-html2pdf>
-<!-- <pre>{{pdf}}</pre> -->
+<!-- <pre>{{date}}</pre> -->
       </div>
 </template>
 
@@ -343,6 +337,7 @@ export default {
     },
     data() {
         return {
+            admin: false,
             alert: false,
             id_pembayaran: '',
             pembayaran: '',
@@ -377,27 +372,39 @@ export default {
         getPembayaran() {
             this.axios.get('pembayaran').then(response => {
                 this.pembayaran = response.data
+            }).catch(error => {
+              console.log(error.response);
             })
         },
         getPetugas() {
             this.axios.get('petugas').then(response => {
                 this.petugas = response.data
+            }).catch(error => {
+              console.log(error.response);
             })
         },
         getSiswa() {
             this.axios.get('siswa').then(response => {
                 this.siswa = response.data.data
-            })
+            }).catch(error => {
+              console.log(error.response);
+            }).catch(error => {
+              console.log(error.response);
+            }) 
         },
         getSPP() {
             this.axios.get('spp').then(response => {
                 this.spp = response.data
+            }).catch(error => {
+              console.log(error.response);
             })
         },
         getDetailPembayaran(index) {
             this.id_pembayaran = this.pembayaran[index].id_pembayaran
             this.axios.get('pembayaran/'+this.id_pembayaran).then(response => {
                 this.detailPembayaran = response.data
+            }).catch(error => {
+              console.log(error.response);
             })
         },
         invoice(index) {
@@ -414,9 +421,9 @@ export default {
         createPembayaran() {
           this.action = 'create'
           this.buttonClass = 'btn btn-success'
-          this.getPetugas()
-          this.getSiswa()
-          this.getSPP()
+        //   this.getPetugas()
+        // this.getSiswa()
+        // this.getSPP()
           this.id_pembayaran = ''
           this.id_petugas = ''
           this.nisn = ''
@@ -433,9 +440,10 @@ export default {
           this.id_petugas = this.pembayaran[index].id_petugas
           this.nisn = this.pembayaran[index].nisn
           this.id_spp = this.pembayaran[index].id_spp
-          this.tanggal = this.pembayaran[index].tgl_bayar
-          this.bulan = this.pembayaran[index].bulan_dibayar
-          this.tahun = this.pembayaran[index].tahun_dibayar
+          this.date = this.pembayaran[index].tahun_dibayar +'-'+this.pembayaran[index].bulan_dibayar+'-'+this.pembayaran[index].tgl_bayar
+          // this.tanggal = this.pembayaran[index].tgl_bayar
+          // this.bulan = this.pembayaran[index].bulan_dibayar
+          // this.tahun = this.pembayaran[index].tahun_dibayar
           this.jumlah_bayar = this.pembayaran[index].jumlah_bayar
         },
         save() {
@@ -487,7 +495,7 @@ export default {
             this.alertMessage = "Berhasil menambahkan data Pembayaran"
           } else if (this.action === 'update') {
             this.alertMessage = "Berhasil mengubah data Pembayaran"
-          } else {
+          } else if (this.action === 'delete') {
             this.alertMessage = "Berhasil menghapus data Pembayaran"
           }
         },
@@ -498,13 +506,23 @@ export default {
             this.alertMessage = "Gagal menambahkan data Pembayaran"
           } else if (this.action === 'update') {
             this.alertMessage = "Gagal mengubah data Pembayaran"
-          } else {
+          } else if (this.action === 'delete') {
             this.alertMessage = "Gagal menghapus data Pembayaran"
+          }
+        },
+        cekLevel() {
+          console.log(localStorage.getItem('Role'));
+          if (localStorage.getItem('Role') === 'admin') {
+            this.admin = true
           }
         }
     },
     mounted() {
+        this.cekLevel()
         this.getPembayaran()
+        this.getPetugas()
+        this.getSiswa()
+        this.getSPP()
     }
 }
 </script>

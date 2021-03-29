@@ -5,7 +5,7 @@
             <!-- Card header -->
             <div class="card-header border-0">
               <div class="alert alert-dismissible fade show" :class="alertVariant" role="alert" v-show="alert">
-                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                <!-- <span class="alert-icon"><i class="ni ni-like-2"></i></span> -->
                 <span class="alert-text"><strong>{{alertMessage}}</strong></span>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="!alert">
                     <span aria-hidden="true">&times;</span>
@@ -98,7 +98,15 @@
                   <div class="form-group">
                     <div class="row">
                           <label class="form-control-label" for="input-nominal-spp">Nominal SPP</label>
-                          <input type="text" id="input-nominal-spp" class="form-control" placeholder="500000" v-model="nominal">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text sm" >Rp</span>
+                            </div>
+                            <input type="text" id="input-nominal-spp" class="form-control" placeholder="500000" v-model="nominal">
+                            <div class="input-group-append">
+                              <span class="input-group-text">,00</span>
+                            </div>
+                          </div>
                     </div>
                   </div>
                 </div>

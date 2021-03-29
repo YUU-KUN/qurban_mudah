@@ -4,8 +4,8 @@
           <div class="card">
             <!-- Card header -->
             <div class="card-header border-0">
-              <div class="alert alert-dismissible fade show" :class="alertVariant" role="alert" v-show="alert">
-                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+              <div class="alert alert-dismissible fade show" :class="alertVariant" role="alert" v-if="alert">
+                <!-- <span class="alert-icon"><i class="ni ni-like-2"></i></span> -->
                 <span class="alert-text"><strong>{{alertMessage}}</strong></span>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="!alert">
                     <span aria-hidden="true">&times;</span>
@@ -134,6 +134,12 @@
                   </div>
                   <div class="form-group" v-if="action === 'create'">
                     <div class="row">
+                          <label class="form-control-label" for="input-no_telp">Password</label>
+                          <input type="tel" id="input-no_telp" class="form-control" placeholder="Nomor telepon siswa" v-model="password">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
                           <label class="form-control-label" for="input-alamat">Alamat</label>
                           <input type="text" id="input-alamat" class="form-control" placeholder="Alamat" v-model="alamat">
                     </div>
@@ -184,6 +190,7 @@ export default {
             nama_siswa:'',
             spp: '',
             nama_kelas: '',
+            password: '',
             no_telp: '',
             alamat: '',
             id_spp: '',
@@ -230,6 +237,7 @@ export default {
           this.nis = ''
           this.nama_siswa = ''
           this.alamat = ''
+          this.password = ''
           this.id_kelas = ''
           this.no_telp = ''
           this.id_spp = ''
@@ -242,6 +250,7 @@ export default {
           this.nama_siswa = this.siswa[index].nama
           this.no_telp = this.siswa[index].no_telp
           this.alamat = this.siswa[index].alamat
+          this.password = this.siswa[index].password
           this.id_kelas = this.siswa[index].id_kelas
           this.id_spp = this.siswa[index].id_spp
         },
@@ -252,7 +261,8 @@ export default {
             no_telp: this.no_telp,
             alamat: this.alamat,
             id_kelas: this.id_kelas,
-            id_spp: this.id_spp
+            id_spp: this.id_spp,
+            password: this.password
           }
           if (this.action === 'create') {
             this.axios.post('siswa', dataSiswa).then(response => {
@@ -287,24 +297,26 @@ export default {
           })
         },
         alertSuccess() {
+          console.log('alert success');
           this.alert = true
           this.alertVariant = 'alert-success'
           if (this.action === 'create') {
             this.alertMessage = "Berhasil menambahkan data Siswa"
           } else if (this.action === 'update') {
             this.alertMessage = "Berhasil mengubah data Siswa"
-          } else {
+          } else if (this.action === 'delete') {
             this.alertMessage = "Berhasil menghapus data Siswa"
           }
         },
         alertFailed() {
+          console.log('alert failed');
           this.alert = true
           this.alertVariant = 'alert-warning'
           if (this.action === 'update') {
             this.alertMessage = "Gagal menambahkan data Siswa"
           } else if (this.action === 'update') {
             this.alertMessage = "Gagal mengubah data Siswa"
-          } else {
+          } else if (this.action === 'delete') {
             this.alertMessage = "Gagal menghapus data Siswa"
           }
         }

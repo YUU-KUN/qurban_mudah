@@ -8,8 +8,8 @@
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8 px-5">
-              <h1 class="text-white">Welcome!</h1>
-              <p class="text-lead text-white">Use these awesome forms to login or create new account in your project for free.</p>
+              <h1 class="text-white">Selamat Datang Admin!</h1>
+              <p class="text-lead text-white">Dapatkan akses masuk aplikasi dengan mengisi form di bawah.</p>
             </div>
           </div>
         </div>
@@ -25,9 +25,24 @@
       <div class="row justify-content-center">
         <div class="col-lg-5 col-md-7">
           <div class="card bg-secondary border-0 mb-0">
+
+            <div class="card-header bg-transparent pb-5">
+              <div class="text-muted text-center mt-2 mb-3"><small>Sign in with</small></div>
+              <div class="btn-wrapper text-center">
+                <a href="http://localhost:8000/sign-in/github" target="_blank" class="btn btn-neutral btn-icon" @click="loginGithub">
+                  <span class="btn-inner--icon"><img src="../../../public/assets/img/icons/common/github.svg"></span>
+                  <span class="btn-inner--text">Github</span>
+                </a>
+                <a href="http://localhost:8000/sign-in/google" target="_blank" class="btn btn-neutral btn-icon">
+                  <span class="btn-inner--icon"><img src="../../../public/assets/img/icons/common/google.svg"></span>
+                  <span class="btn-inner--text">Google</span>
+                </a>
+              </div>
+            </div>
+
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
-                  Please sign in to continue
+                  Silahkan masukkan info akun Anda unutk melanjutkan
               </div>
               <form role="form">
                 <div class="form-group mb-3">
@@ -46,24 +61,21 @@
                     <input class="form-control" placeholder="Password" type="password" v-model="password">
                   </div>
                 </div>
-                <div class="custom-control custom-control-alternative custom-checkbox">
+                <!-- <div class="custom-control custom-control-alternative custom-checkbox">
                   <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
                   <label class="custom-control-label" for=" customCheckLogin">
                     <span class="text-muted">Remember me</span>
                   </label>
-                </div>
+                </div> -->
                 <div class="text-center">
-                  <button type="button" @click="login" class="btn btn-primary my-4">Sign in</button>
+                  <button type="button" @click="login" class="btn btn-primary my-4">Masuk!</button>
                 </div>
               </form>
             </div>
           </div>
           <div class="row mt-3">
-            <div class="col-6">
-              <a href="#" class="text-light"><small>Forgot password?</small></a>
-            </div>
-            <div class="col-6 text-right">
-              <a href="#" class="text-light"><small>Create new account</small></a>
+            <div class="col-12 text-center">
+              <small class="text-light">Belum punya akun? <router-link class="text-light" to="register"><b>Daftar</b></router-link></small>
             </div>
           </div>
         </div>
@@ -83,17 +95,17 @@ export default {
     },
     methods: {
         login() {
-          console.log('Tunggu sebentar ya..');
-            const dataLogin = {
+          console.log('Tunggu sebentar ya..')
+              const dataLogin = {
                 username: this.username,
                 password: this.password,
-            }
-            this.$store.dispatch('login', dataLogin)
-            .then(response => {
+            }  
+              this.$store.dispatch('loginAdmin', dataLogin)
+              .then(response => {
               this.$router.push('/')
             })
             .catch(error => {
-                console.log(error);
+                console.log(error)
             })
         }
     }

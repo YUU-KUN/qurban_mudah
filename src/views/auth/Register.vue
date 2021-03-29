@@ -8,8 +8,8 @@
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8 px-5">
-              <h1 class="text-white">Welcome!</h1>
-              <p class="text-lead text-white">Use these awesome forms to login or create new account in your project for free.</p>
+              <h1 class="text-white">Selamat Datang Admin!</h1>
+              <p class="text-lead text-white">Dapatkan akses masuk aplikasi dengan mengisi form di bawah.</p>
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
           <div class="card bg-secondary border-0 mb-0">
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
-                  Please sign up to continue
+                  Silahkan masukkan info Anda untuk mendaftar
               </div>
                 <div class="alert alert-success" role="alert" v-if="info">
                     <strong>Success!</strong> {{message}}
@@ -64,9 +64,14 @@
                   </label>
                 </div> -->
                 <div class="text-center">
-                  <button type="button" @click="register" class="btn btn-primary my-4">Sign Up</button>
+                  <button type="button" @click="register" class="btn btn-primary my-4">Daftar!</button>
                 </div>
               </form>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12 text-center">
+              <small class="text-light">Sudah punya akun? <router-link class="text-light" to="login"><b>Masuk</b></router-link></small>
             </div>
           </div>
         </div>

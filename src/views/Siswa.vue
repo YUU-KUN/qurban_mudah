@@ -2,6 +2,20 @@
   <div class="row">
         <div class="col">
           <div class="card">
+            <div v-if="siswa == ''">
+              <content-loader
+                  viewBox="0 0 476 124"
+                  primaryColor="#f3f3f3"
+                  secondaryColor="#cccccc"
+                >
+                  <rect x="10" y="8" rx="3" ry="3" width="65" height="6" />
+                  <rect x="10" y="26" rx="3" ry="3" width="52" height="6" />
+                  <rect x="20" y="56" rx="3" ry="3" width="300" height="6" />
+                  <rect x="20" y="72" rx="3" ry="3" width="300" height="6" />
+                  <rect x="20" y="88" rx="3" ry="3" width="178" height="6" />
+                </content-loader>
+            </div>
+            <div v-else>
             <!-- Card header -->
             <div class="card-header border-0">
               <div class="alert alert-dismissible fade show" :class="alertVariant" role="alert" v-if="alert">
@@ -12,13 +26,14 @@
                 </button>
               </div>
               <button class="btn btn-success" @click="createSiswa" data-toggle="modal" data-target="#modalSiswa"><span class="alert-icon"><i class="ni ni-fat-add"></i></span>Siswa</button>
+              
             </div>
             <!-- Light table -->
             <div class="table-responsive">
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                      <th></th>
+                    <th></th>
                     <th scope="col">No.</th>
                     <th scope="col">Nama Siswa</th>
                     <th scope="col">Kelas</th>
@@ -168,6 +183,8 @@
                 </tbody>
               </table>
             </div>
+
+            </div>
             <!-- <pre>{{siswa}}</pre> -->
           </div>
         </div>
@@ -176,7 +193,12 @@
 </template>
 
 <script>
+import { ContentLoader } from 'vue-content-loader'
+
 export default {
+  components: {
+    ContentLoader
+  },
     data() {
         return {
             alert: false,

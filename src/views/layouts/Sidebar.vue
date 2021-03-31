@@ -28,7 +28,7 @@
             </li>
             <li class="nav-item">
                 <router-link to="petugas" class="nav-link" >
-                <i class="ni ni-planet text-orange"></i>
+                <i class="ni ni-send text-orange"></i>
                 <span class="nav-link-text">Petugas</span>
               </router-link>
             </li>
@@ -51,12 +51,6 @@
                 <span class="nav-link-text">Pembayaran</span>
               </router-link>
             </li>
-            <li class="nav-item">
-              <a href="" @click="logout" class="nav-link" >
-                <i class="ni ni-send text-dark"></i>
-                <span class="nav-link-text">Logout</span>
-              </a>
-            </li>
           </ul>
         </div>
       </div>
@@ -72,17 +66,7 @@ export default {
     }
   },
   methods: {
-    logout() {
-      this.$store.dispatch('logout').then(response => {
-        console.log(response)
-        console.log('Berhasil Logout')
-      }).catch(error => {
-        console.log(error.response)
-        console.log('Gagal Logout')
-      })
-    },
     cekLevel() {
-      console.log(localStorage.getItem('Role'));
       if (localStorage.getItem('Role') === 'admin') {
         this.admin = true
       }

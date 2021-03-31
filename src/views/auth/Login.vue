@@ -40,9 +40,9 @@
               </div>
             </div> -->
 
-            <div class="alert alert-dismissible fade show" :class="alert_variant" style="border-radius:0" role="alert" v-if="error">
+            <div class="alert alert-dismissible fade show" :class="alert_variant" style="border-radius:0" role="alert" v-if="notification">
                 <span class="alert-text"><strong>{{alert_message}}</strong> </span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="error = false">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="notification = false">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -76,7 +76,16 @@
                   </label>
                 </div> -->
                 <div class="text-center">
-                  <button type="button" @click="login" class="btn btn-primary my-4">Masuk!</button>
+                  <button type="button" @click="login" class="btn btn-primary my-4">
+                    <span v-if="!tryToLogin">Masuk!</span>
+                    <span v-else>
+                      <half-circle-spinner
+                        :animation-duration="1000"
+                        :size="20"
+                        color="#ffffff"
+                      />
+                    </span>
+                  </button>
                 </div>
               </form>
             </div>
@@ -95,33 +104,42 @@
 </template>
 
 <script>
+import { HalfCircleSpinner } from 'epic-spinners'
 export default {
+  components: {
+    HalfCircleSpinner
+  },
     data() {
         return {
             username: '',
             password: '',
             response: '',
-            error: false,
-            success: false,
+            notification: false,
+            tryToLogin: false,
             alert_variant: '',
             alert_message: ''
         }
     },
     methods: {
       login() {
-        console.log('Tunggu sebentar ya..')
+        this.tryToLogin = true
         const data = {
           username: this.username,
           password: this.password,
         }  
         this.$store.dispatch('login', data)
           .then(response => {
-            this.success = true
-            console.log(response.data.message);
-            console.log('Selamat Datang..');
-          // this.$router.push('/dashboard')
+            this.tryToLogin = false
+            this.alert_message = response.data.message
+            if (!response.data.status) {
+              this.dangerAlert()
+            } else {
+              this.successAlert()
+              this.$router.push('/')
+            }
         })
         .catch(error => {
+          this.tryToLogin = false
           if (!data.username && data.password) {
             this.alert_message = error.response.data.errors.username[0]
           } else if (data.username && !data.password) {
@@ -133,26 +151,24 @@ export default {
         })
       },
       successAlert() {
-        this.success = true
-        this.error = false
+        this.notification = true
         this.alert_variant = 'alert-success'        
       },
-
-      dangerAlert(message) {
-        this.success = false
-        this.error = true
+      dangerAlert() {
+        this.notification = true
         this.alert_variant = 'alert-danger'
       },
-      loginGithub() {
-        this.axios.get('sign-in/github').then(
-          this.$store.dispatch('loginGithub').then(response => {
-            this.response = response.user
-            console.log('response');
-            console.log(this.response);
-            // this.$router.push('/login')
-          })
-        )
-      }
+
+      // loginGithub() {
+      //   this.axios.get('sign-in/github').then(
+      //     this.$store.dispatch('loginGithub').then(response => {
+      //       this.response = response.user
+      //       console.log('response');
+      //       console.log(this.response);
+      //       this.$router.push('/login')
+      //     })
+      //   )
+      // }
     }
 }
 </script>

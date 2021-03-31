@@ -6,10 +6,22 @@
               <div class="card card-stats">
                 <!-- Card body -->
                 <div class="card-body">
+                  <div v-if="loadingPetugas">
+                    <content-loader
+                  viewBox="0 0 476 124"
+                  primaryColor="#f3f3f3"
+                  secondaryColor="#cccccc"
+                >
+                  <rect x="10" y="8" rx="3" ry="3" width="245" height="15" />
+                  <rect x="10" y="56" rx="3" ry="3" width="500" height="15" />
+                  <rect x="10" y="116" rx="3" ry="3" width="300" height="15" />
+                </content-loader>
+                  </div>
+                  <div v-else>
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Total Petugas</h5>
-                      <span v-if="loadingPetugas" >
+                      <!-- <span  >
                         <hollow-dots-spinner
                         style="margin-top: 10px"
                           :animation-duration="1000"
@@ -17,8 +29,8 @@
                           :dots-num="3"
                           color="#ff1d5e"
                         />
-                      </span>
-                      <span class="h2 font-weight-bold mb-0" v-else>{{totalPetugas}}</span>
+                      </span> -->
+                      <span class="h2 font-weight-bold mb-0">{{totalPetugas}}</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -30,6 +42,7 @@
                     <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
                     <span class="text-nowrap">Since last month</span>
                   </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -37,18 +50,21 @@
               <div class="card card-stats">
                 <!-- Card body -->
                 <div class="card-body">
+                  <div v-if="loadingSiswa">
+                    <content-loader
+                  viewBox="0 0 476 124"
+                  primaryColor="#f3f3f3"
+                  secondaryColor="#cccccc"
+                >
+                  <rect x="10" y="8" rx="3" ry="3" width="245" height="15" />
+                  <rect x="10" y="56" rx="3" ry="3" width="500" height="15" />
+                  <rect x="10" y="116" rx="3" ry="3" width="300" height="15" />
+                </content-loader>
+                  </div>
+                  <div v-else>
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Total Siswa</h5>
-                      <span v-if="loadingSiswa" >
-                        <hollow-dots-spinner
-                        style="margin-top: 10px"
-                          :animation-duration="1000"
-                          :dot-size="10"
-                          :dots-num="3"
-                          color="#ff1d5e"
-                        />
-                      </span>
                       <span class="h2 font-weight-bold mb-0">{{totalSiswa}}</span>
                     </div>
                     <div class="col-auto">
@@ -61,6 +77,7 @@
                     <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
                     <span class="text-nowrap">Since last month</span>
                   </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -68,18 +85,21 @@
               <div class="card card-stats">
                 <!-- Card body -->
                 <div class="card-body">
+                  <div v-if="loadingKelas">
+                    <content-loader
+                  viewBox="0 0 476 124"
+                  primaryColor="#f3f3f3"
+                  secondaryColor="#cccccc"
+                >
+                  <rect x="10" y="8" rx="3" ry="3" width="245" height="15" />
+                  <rect x="10" y="56" rx="3" ry="3" width="500" height="15" />
+                  <rect x="10" y="116" rx="3" ry="3" width="300" height="15" />
+                </content-loader>
+                  </div>
+                  <div v-else>
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Total Kelas</h5>
-                      <span v-if="loadingKelas" >
-                        <hollow-dots-spinner
-                        style="margin-top: 10px"
-                          :animation-duration="1000"
-                          :dot-size="10"
-                          :dots-num="3"
-                          color="#ff1d5e"
-                        />
-                      </span>
                       <span class="h2 font-weight-bold mb-0">{{totalKelas}}</span>
                     </div>
                     <div class="col-auto">
@@ -93,24 +113,28 @@
                     <span class="text-nowrap">Since last month</span>
                   </p>
                 </div>
+                </div>
               </div>
             </div>
             <div class="col-xl-3 col-md-6">
               <div class="card card-stats">
                 <!-- Card body -->
                 <div class="card-body">
+                  <div v-if="loadingSPP">
+                    <content-loader
+                  viewBox="0 0 476 124"
+                  primaryColor="#f3f3f3"
+                  secondaryColor="#cccccc"
+                >
+                  <rect x="10" y="8" rx="3" ry="3" width="245" height="15" />
+                  <rect x="10" y="56" rx="3" ry="3" width="500" height="15" />
+                  <rect x="10" y="116" rx="3" ry="3" width="300" height="15" />
+                </content-loader>
+                  </div>
+                  <div v-else>
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Total SPP</h5>
-                      <span v-if="loadingSPP" >
-                        <hollow-dots-spinner
-                        style="margin-top: 10px"
-                          :animation-duration="1000"
-                          :dot-size="10"
-                          :dots-num="3"
-                          color="#ff1d5e"
-                        />
-                      </span>
                       <span class="h2 font-weight-bold mb-0">{{totalSPP}}</span>
                     </div>
                     <div class="col-auto">
@@ -123,6 +147,7 @@
                     <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
                     <span class="text-nowrap">Since last month</span>
                   </p>
+                </div>
                 </div>
               </div>
             </div>
@@ -400,10 +425,10 @@
 </template>
 
 <script>
-import { HollowDotsSpinner } from 'epic-spinners'
+import { ContentLoader } from 'vue-content-loader'
 export default {
   components: {
-    HollowDotsSpinner
+    ContentLoader
   },
   data() {
     return {

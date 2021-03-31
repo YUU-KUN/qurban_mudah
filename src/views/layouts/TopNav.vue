@@ -215,7 +215,7 @@
                   <span>Support</span>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#!" class="dropdown-item">
+                <a href="" @click="logout" class="dropdown-item">
                   <i class="ni ni-user-run"></i>
                   <span>Logout</span>
                 </a>
@@ -237,7 +237,16 @@ export default {
   methods: {
     getName() {
       this.name = localStorage.getItem('Name').toUpperCase()
-    }
+    },
+    logout() {
+      this.$store.dispatch('logout').then(response => {
+        console.log(response)
+        console.log('Berhasil Logout')
+      }).catch(error => {
+        console.log(error.response)
+        console.log('Gagal Logout')
+      })
+    },
   },
   mounted() {
     this.getName()

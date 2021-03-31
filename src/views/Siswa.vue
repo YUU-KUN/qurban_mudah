@@ -135,7 +135,7 @@
                   <div class="form-group" v-if="action === 'create'">
                     <div class="row">
                           <label class="form-control-label" for="input-no_telp">Password</label>
-                          <input type="tel" id="input-no_telp" class="form-control" placeholder="Nomor telepon siswa" v-model="password">
+                          <input type="tel" id="input-no_telp" class="form-control" placeholder="Password siswa" v-model="password">
                     </div>
                   </div>
                   <div class="form-group">

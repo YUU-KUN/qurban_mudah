@@ -206,14 +206,14 @@
                   <i class="ni ni-settings-gear-65"></i>
                   <span>Settings</span>
                 </a>
-                <a href="#!" class="dropdown-item">
+                <!-- <a href="#!" class="dropdown-item">
                   <i class="ni ni-calendar-grid-58"></i>
                   <span>Activity</span>
                 </a>
                 <a href="#!" class="dropdown-item">
                   <i class="ni ni-support-16"></i>
                   <span>Support</span>
-                </a>
+                </a> -->
                 <div class="dropdown-divider"></div>
                 <a href="" @click="logout" class="dropdown-item">
                   <i class="ni ni-user-run"></i>

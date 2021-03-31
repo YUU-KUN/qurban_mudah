@@ -26,10 +26,10 @@
         <div class="col-lg-5 col-md-7">
           <div class="card bg-secondary border-0 mb-0">
 
-            <div class="card-header bg-transparent pb-5">
+            <!-- <div class="card-header bg-transparent pb-5">
               <div class="text-muted text-center mt-2 mb-3"><small>Sign in with</small></div>
               <div class="btn-wrapper text-center">
-                <a href="http://localhost:8000/sign-in/github" target="_blank" class="btn btn-neutral btn-icon" @click="loginGithub">
+                <a href="http://localhost:8000/sign-in/github" target="_blank" class="btn btn-neutral btn-icon" >
                   <span class="btn-inner--icon"><img src="../../../public/assets/img/icons/common/github.svg"></span>
                   <span class="btn-inner--text">Github</span>
                 </a>
@@ -38,7 +38,15 @@
                   <span class="btn-inner--text">Google</span>
                 </a>
               </div>
+            </div> -->
+
+            <div class="alert alert-dismissible fade show" :class="alert_variant" style="border-radius:0" role="alert" v-if="error">
+                <span class="alert-text"><strong>{{alert_message}}</strong> </span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="error = false">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+
 
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
@@ -48,9 +56,9 @@
                 <div class="form-group mb-3">
                   <div class="input-group input-group-merge input-group-alternative">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                      <span class="input-group-text"><i class="fa fa-user-circle"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Username" type="text" v-model="username">
+                    <input class="form-control" placeholder="Username" type="text" v-model="username" required>
                   </div>
                 </div>
                 <div class="form-group">
@@ -58,7 +66,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Password" type="password" v-model="password">
+                    <input class="form-control" placeholder="Password" type="password" v-model="password" required>
                   </div>
                 </div>
                 <!-- <div class="custom-control custom-control-alternative custom-checkbox">
@@ -82,6 +90,7 @@
       </div>
     </div>
   </div>
+  <pre>{{response}}</pre>
   </div>
 </template>
 
@@ -91,23 +100,59 @@ export default {
         return {
             username: '',
             password: '',
+            response: '',
+            error: false,
+            success: false,
+            alert_variant: '',
+            alert_message: ''
         }
     },
     methods: {
-        login() {
-          console.log('Tunggu sebentar ya..')
-              const dataLogin = {
-                username: this.username,
-                password: this.password,
-            }  
-              this.$store.dispatch('loginAdmin', dataLogin)
-              .then(response => {
-              this.$router.push('/')
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
+      login() {
+        console.log('Tunggu sebentar ya..')
+        const data = {
+          username: this.username,
+          password: this.password,
+        }  
+        this.$store.dispatch('login', data)
+          .then(response => {
+            this.success = true
+            console.log(response.data.message);
+            console.log('Selamat Datang..');
+          // this.$router.push('/dashboard')
+        })
+        .catch(error => {
+          if (!data.username && data.password) {
+            this.alert_message = error.response.data.errors.username[0]
+          } else if (data.username && !data.password) {
+            this.alert_message = error.response.data.errors.password[0]
+          } else {
+            this.alert_message = error.response.data.message
+          }
+          this.dangerAlert()
+        })
+      },
+      successAlert() {
+        this.success = true
+        this.error = false
+        this.alert_variant = 'alert-success'        
+      },
+
+      dangerAlert(message) {
+        this.success = false
+        this.error = true
+        this.alert_variant = 'alert-danger'
+      },
+      loginGithub() {
+        this.axios.get('sign-in/github').then(
+          this.$store.dispatch('loginGithub').then(response => {
+            this.response = response.user
+            console.log('response');
+            console.log(this.response);
+            // this.$router.push('/login')
+          })
+        )
+      }
     }
 }
 </script>

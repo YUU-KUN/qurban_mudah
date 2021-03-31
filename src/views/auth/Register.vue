@@ -36,7 +36,7 @@
                 <div class="form-group mb-3">
                   <div class="input-group input-group-merge input-group-alternative">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                      <span class="input-group-text"><i class="fa fa-user-circle"></i></span>
                     </div>
                     <input class="form-control" placeholder="Nama Petugas" type="text" v-model="nama_petugas">
                   </div>
@@ -44,7 +44,7 @@
                 <div class="form-group mb-3">
                   <div class="input-group input-group-merge input-group-alternative">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                      <span class="input-group-text"><i class="fa fa-user-circle"></i></span>
                     </div>
                     <input class="form-control" placeholder="Username" type="text" v-model="username">
                   </div>
@@ -104,7 +104,8 @@ export default {
             this.$store.dispatch('register', dataRegister)
             .then(response => {
                 this.message = response.data.message
-                setTimeout(this.$router.push('/login'), 3000)
+                console.log(response.data);
+                // this.$router.push('/login')
                 this.info = false
             }).catch(error => {
                 this.message = error.response

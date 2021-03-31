@@ -2,10 +2,22 @@
   <div class="row">
         <div class="col">
           <div class="card">
+            <div v-if="pembayaran == ''">
+              <div class="card-header">
+                <div class="col" style="text-align:center;  margin-bottom:50px; ">
+                  <!-- <div style="height: 100%; display:block; padding:auto 0"> -->
+                    <img src="../../public/assets/img/theme/vue.jpg" alt="" srcset="">
+                    <p>Ups. Daftar Pembayaranmu belum ada nih..</p>
+                    <button class="btn btn-success" @click="createPembayaran" data-toggle="modal" data-target="#modalPembayaran"><span class="alert-icon"><i class="ni ni-fat-add"></i></span>Pembayaran</button>
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+
+            <div v-else >
             <!-- Card header -->
             <div class="card-header border-0">
               <div class="alert alert-dismissible fade show" :class="alertVariant" role="alert" v-show="alert">
-                <!-- <span class="alert-icon"><i class="ni ni-like-2"></i></span> -->
                 <span class="alert-text"><strong>{{alertMessage}}</strong></span>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="!alert">
                     <span aria-hidden="true">&times;</span>
@@ -85,8 +97,18 @@
           </div>
         </div>
       </div>
+        <!-- END MODAL -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-      <div class="modal fade" id="modalPembayaran" tabindex="-1" role="dialog" aria-labelledby="modalEditPembayaranLabel" aria-hidden="true">
+          </div>
+        </div>
+
+        <!-- MODAL PEMBAYARAN -->
+        <div class="modal fade" id="modalPembayaran" tabindex="-1" role="dialog" aria-labelledby="modalEditPembayaranLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -177,19 +199,10 @@
               <button type="button" @click="save" :class="buttonClass" data-dismiss="modal"><span v-if="action === 'create'" >Tambah</span> <span v-else>Edit</span>!</button>
               </form>
             </div>
-            <!-- <div class="modal-footer">
-            </div> -->
           </div>
         </div>
       </div>
-        <!-- END MODAL -->
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- <pre>{{detailPembayaran}}</pre> -->
-          </div>
-        </div>
+      <!-- END MODAL -->
 
         <vue-html2pdf
         :show-layout="false"
@@ -511,7 +524,6 @@ export default {
           }
         },
         cekLevel() {
-          console.log(localStorage.getItem('Role'));
           if (localStorage.getItem('Role') === 'admin') {
             this.admin = true
           }
@@ -526,9 +538,3 @@ export default {
     }
 }
 </script>
-
-<style>
-/* body {
-  background-color: #fcfcfc
-} */
-</style>

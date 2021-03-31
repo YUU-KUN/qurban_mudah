@@ -43,8 +43,6 @@ export default new Vuex.Store({
             localStorage.setItem('Name', response.data.user.nama_petugas)
             localStorage.setItem('Authorization', 'Bearer '+token)
             axios.defaults.headers.common['Authorization'] = localStorage.getItem('Authorization')
-          } else {
-            console.log(response.data.message);
           }
           resolve(response)
         }).catch(err => {

@@ -36,28 +36,18 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit('auth_request')
         axios.post('/petugas/login', petugas, headers).then(response => {
-            console.log(response.data);
-            console.log('Selamat Datang, ini di store');
+          if (response.data.status) {
             const token = response.data.token
             commit('auth_success', token)
             localStorage.setItem('Role', response.data.user.level)
             localStorage.setItem('Name', response.data.user.nama_petugas)
             localStorage.setItem('Authorization', 'Bearer '+token)
             axios.defaults.headers.common['Authorization'] = localStorage.getItem('Authorization')
-            resolve(response)
+          } else {
+            console.log(response.data.message);
+          }
+          resolve(response)
         }).catch(err => {
-          // if (err.response.data.errors.msg) {
-          //   for (let i = 0; i < err.response.data.errors.msg.length; i++) {
-          //     console.log(err.response.data.errors.msg[i]);
-          //   }
-          // } else {
-          //   console.log(err.response)
-          // }
-          // console.log(err.response.data.msg);
-          // for (let i = 0; i < err.response.data.errors.msg.length; i++) {
-          //   console.log(err.response.data.errors.msg[i]);
-          // }
-          // console.log(err.response);
           commit('auth_error')
           localStorage.removeItem('Authorization')
           reject(err)

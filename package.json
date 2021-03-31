@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "epic-spinners": "^1.1.0",
     "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-axios": "^3.2.4",

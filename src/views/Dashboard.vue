@@ -9,7 +9,16 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Total Petugas</h5>
-                      <span class="h2 font-weight-bold mb-0">{{totalPetugas}}</span>
+                      <span v-if="loadingPetugas" >
+                        <hollow-dots-spinner
+                        style="margin-top: 10px"
+                          :animation-duration="1000"
+                          :dot-size="10"
+                          :dots-num="3"
+                          color="#ff1d5e"
+                        />
+                      </span>
+                      <span class="h2 font-weight-bold mb-0" v-else>{{totalPetugas}}</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -31,6 +40,15 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Total Siswa</h5>
+                      <span v-if="loadingSiswa" >
+                        <hollow-dots-spinner
+                        style="margin-top: 10px"
+                          :animation-duration="1000"
+                          :dot-size="10"
+                          :dots-num="3"
+                          color="#ff1d5e"
+                        />
+                      </span>
                       <span class="h2 font-weight-bold mb-0">{{totalSiswa}}</span>
                     </div>
                     <div class="col-auto">
@@ -53,6 +71,15 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Total Kelas</h5>
+                      <span v-if="loadingKelas" >
+                        <hollow-dots-spinner
+                        style="margin-top: 10px"
+                          :animation-duration="1000"
+                          :dot-size="10"
+                          :dots-num="3"
+                          color="#ff1d5e"
+                        />
+                      </span>
                       <span class="h2 font-weight-bold mb-0">{{totalKelas}}</span>
                     </div>
                     <div class="col-auto">
@@ -75,6 +102,15 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Total SPP</h5>
+                      <span v-if="loadingSPP" >
+                        <hollow-dots-spinner
+                        style="margin-top: 10px"
+                          :animation-duration="1000"
+                          :dot-size="10"
+                          :dots-num="3"
+                          color="#ff1d5e"
+                        />
+                      </span>
                       <span class="h2 font-weight-bold mb-0">{{totalSPP}}</span>
                     </div>
                     <div class="col-auto">
@@ -364,36 +400,53 @@
 </template>
 
 <script>
+import { HollowDotsSpinner } from 'epic-spinners'
 export default {
+  components: {
+    HollowDotsSpinner
+  },
   data() {
     return {
       totalPetugas: '',
       totalSiswa: '',
       totalKelas: '',
       totalSPP: '',
+      loadingPetugas: false,
+      loadingSiswa: false,
+      loadingKelas: false,
+      loadingSPP: false,
     }
   },
   methods: {
     getTotalPetugas() {
+      this.loadingPetugas = true
       this.axios.get('petugas').then(response => {
         this.totalPetugas = response.data.length
+        this.loadingPetugas = false
       }).catch(error => {
         console.log(error.response);
+        this.loadingPetugas = false
       })
     },
     getTotalSiswa() {
+      this.loadingSiswa = true
       this.axios.get('siswa').then(response => {
         this.totalSiswa = response.data.data.length
+        this.loadingSiswa = false
       })
     },
     getTotalKelas() {
+      this.loadingKelas = true
       this.axios.get('kelas').then(response => {
         this.totalKelas = response.data.data.length
+        this.loadingKelas = false
       })
     },
     getTotalSPP() {
+      this.loadingSPP = true
       this.axios.get('spp').then(response => {
         this.totalSPP = response.data.length
+        this.loadingSPP = false
       })
     },
   },

@@ -74,35 +74,64 @@
                         <button class="btn btn-danger" @click="deleteSiswa(index)">Delete</button>
                     </td>
 
-                     <!--MODAL -->
-      <div class="modal fade" :id="'modalDetailSiswa'+index" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-          <div class="card card-profile">
-            <img src="../../public/assets//img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
-            <div class="row justify-content-center">
-              <div class="col-lg-3 order-lg-2">
-                <div class="card-profile-image">
-                  <a href="#">
-                    <img src="../../public/assets/img/theme/team-4.jpg" class="rounded-circle">
-                  </a>
-                </div>
-              </div>
+                    <!-- MODAL DETAIL -->
+                    <div class="modal fade" :id="'modalDetailSiswa'+index" tabindex="-1" role="dialog" aria-labelledby="modalDetail" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalDetail">Detail Siswa</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-              <div class="d-flex justify-content-between">
-                <br>
-              </div>
-            </div>
-            <div class="card-body pt-0">
-              <div class="text-center">
-                <h5 class="h3">
-                  {{detailSiswa.nama}}<span class="font-weight-light">, {{detailSiswa.nisn}}</span>
-                </h5>
-                <div class="h5 font-weight-300">
-                  <i class="ni location_pin mr-2"></i>
-                  <a href="" class="btn btn-sm btn-default">{{detailSiswa.alamat}}</a>
+            <div class="modal-body">
+              <form> 
+                <div class="col">
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="form-control-label" for="input-nis">NIS</label>
+                      <input type="number" id="input-nis" class="form-control" placeholder="Nomor Induk Siswa" v-model="detailSiswa.nis" disabled>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="form-control-label" for="input-name">Nama Siswa</label>
+                      <input type="text" id="input-name" class="form-control" placeholder="Nama lengkap siswa" v-model="detailSiswa.nama" disabled>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                          <label class="form-control-label" for="input-kelas">Kelas</label>
+                          <select v-model="detailSiswa.id_kelas" class="form-control" id="input-kelas" disabled>
+                              <option value="" disabled selected>Pilih Kelas</option>
+                              <option v-for="(kelas, index) in kelas" :key="index" :value="kelas.id_kelas">{{kelas.nama_kelas}} - {{kelas.kompetensi_keahlian}}</option>
+                          </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                          <label class="form-control-label" for="input-no_telp">Nomor Telepon</label>
+                          <input type="tel" id="input-no_telp" class="form-control" placeholder="Nomor telepon siswa" v-model="detailSiswa.no_telp" disabled>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                          <label class="form-control-label" for="input-alamat">Alamat</label>
+                          <input type="text" id="input-alamat" class="form-control" placeholder="Alamat" v-model="detailSiswa.alamat" disabled>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="form-control-label" for="input-spp">SPP</label>
+                      <select id="input-spp" class="form-control" v-model="detailSiswa.id_spp" disabled>
+                        <option value="" disabled selected>Pilih SPP</option>
+                        <option v-for="(spp, index) in spp" :key="index" :value="spp.id_spp">Tahun {{spp.tahun}} - {{spp.nominal}}</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+              </form>
             </div>
           </div>
         </div>

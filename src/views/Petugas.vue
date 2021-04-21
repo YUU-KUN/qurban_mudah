@@ -51,35 +51,50 @@
                         <button class="btn btn-danger" @click="deletePetugas(index)">Delete</button>
                     </td>
 
-                     <!--MODAL -->
-      <div class="modal fade" :id="'modalDetailPetugas'+index" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-          <div class="card card-profile">
-            <img src="../../public/assets//img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
-            <div class="row justify-content-center">
-              <div class="col-lg-3 order-lg-2">
-                <div class="card-profile-image">
-                  <a href="#">
-                    <img src="../../public/assets/img/theme/team-4.jpg" class="rounded-circle">
-                  </a>
-                </div>
-              </div>
+                      <!-- MODAL DETAIL -->
+      <div class="modal fade" :id="'modalDetailPetugas'+index" tabindex="-1" role="dialog" aria-labelledby="modalDetailPetugas" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalDetailPetugas">Detail Petugas</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-              <div class="d-flex justify-content-between">
-                <br>
-              </div>
-            </div>
-            <div class="card-body pt-0">
-              <div class="text-center">
-                <h5 class="h3">
-                  {{detailPetugas.nama_petugas}}<span class="font-weight-light">, {{detailPetugas.username}}</span>
-                </h5>
-                <div class="h5 font-weight-300">
-                  <i class="ni location_pin mr-2"></i>
-                  <a href="" class="btn btn-sm btn-default">{{detailPetugas.level}}</a>
+            <div class="modal-body">
+              <form> 
+                <div class="col">
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="form-control-label" for="input-first-name">Nama Petugas</label>
+                      <input type="text" id="input-first-name" class="form-control" placeholder="First name" v-model="detailPetugas.nama_petugas" disabled>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                          <label class="form-control-label" for="input-username">Username</label>
+                          <input type="text" id="input-username" class="form-control" placeholder="Username" v-model="detailPetugas.username" disabled>
+                    </div>
+                  </div>
+                  <div class="form-group" v-if="action === 'create'">
+                    <div class="row">
+                          <label class="form-control-label" for="input-password">Password</label>
+                          <input type="text" id="input-password" class="form-control" placeholder="Password" v-model="detailPetugas.password" disabled>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="form-control-label" for="input-role">Role</label>
+                      <select name="role" id="input-role" class="form-control" v-model="detailPetugas.level" disabled>
+                        <option value="" disabled selected>Pilih Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="petugas">Petugas</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+              </form>
             </div>
           </div>
         </div>

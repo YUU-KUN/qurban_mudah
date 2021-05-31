@@ -63,36 +63,69 @@
                         <button class="btn btn-danger" @click="deletePembayaran(index)">Delete</button>
                         <button v-if="admin" class="btn btn-success" @click="invoice(index)">Cetak Invoice</button>
                     </td>
-
-                     <!--MODAL -->
-      <div class="modal fade" :id="'modaldetailPembayaran'+index" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-          <div class="card card-profile">
-            <img src="../../public/assets//img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
-            <div class="row justify-content-center">
-              <div class="col-lg-3 order-lg-2">
-                <div class="card-profile-image">
-                  <a href="#">
-                    <img src="../../public/assets/img/theme/team-4.jpg" class="rounded-circle">
-                  </a>
-                </div>
-              </div>
+      <!-- MODAL DETAIL -->
+        <div class="modal fade" :id="'modaldetailPembayaran'+index"  tabindex="-1" role="dialog" aria-labelledby="modalDetailPembayaran" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalDetailPembayaran">Detail Pembayaran</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-              <div class="d-flex justify-content-between">
-                <br>
-              </div>
-            </div>
-            <div class="card-body pt-0">
-              <div class="text-center">
-                <h5 class="h3">
-                  {{detailPembayaran.tahun}}<span class="font-weight-light">, {{detailPembayaran.jumlah_bayar}}</span>
-                </h5>
-                <div class="h5 font-weight-300">
-                  <i class="ni location_pin mr-2"></i>
-                  <a href="" class="btn btn-sm btn-default">{{detailPembayaran.jumlah_bayar}}</a>
+            <div class="modal-body">
+              <form> 
+                <div class="col">
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="form-control-label" for="input-nama-siswa">Nama Siswa</label>
+                      <select id="input-nama-siswa" class="form-control" v-model="detailPembayaran.nisn" disabled>
+                          <option value="" disabled selected>Pilih Siswa</option>
+                          <option v-for="(siswa, index) in siswa" :key="index" :value="siswa.nisn" >{{siswa.nama}} - <span v-if="siswa.kelas">{{siswa.kelas.nama_kelas}} {{siswa.kelas.kompetensi_keahlian}}</span> <span v-else>(Kelas belum ditambahkan)</span></option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="form-control-label" for="input-nama-petugas">Nama Petugas</label>
+                      <select id="input-nama-petugas" class="form-control" v-model="detailPembayaran.id_petugas" disabled>
+                          <option value="" disabled selected>Pilih Petugas</option>
+                          <option v-for="(petugas, index) in petugas" :key="index" :value="petugas.id_petugas">{{petugas.nama_petugas}} - {{petugas.level.toUpperCase()}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                        <label class="form-control-label" for="input-tanggal-pembayaran">Tanggal Dibayar</label>
+                        <input type="date" id="input-tanggal-pembayaran" class="form-control datepicker" placeholder="Select date" v-model="date" disabled>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="form-control-labelD" for="input-spp">SPP</label>
+                      <select id="input-spp" class="form-control" v-model="detailPembayaran.id_spp" disabled>
+                          <option value="" disabled selected>Pilih SPP</option>
+                          <option v-for="(spp, index) in spp" :key="index" :value="spp.id_spp" >{{spp.tahun}} - {{spp.nominal | rupiah}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                          <label class="form-control-label" for="input-nominal-pembayaran">Nominal Pembayaran</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text sm" >Rp</span>
+                            </div>
+                            <input type="text" id="input-nominal-pembayaran" class="form-control" placeholder="500000" v-model="detailPembayaran.jumlah_bayar" disabled>
+                            <div class="input-group-append">
+                              <span class="input-group-text">,00</span>
+                            </div>
+                          </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+              </form>
             </div>
           </div>
         </div>
@@ -120,21 +153,21 @@
             <div class="modal-body">
               <form> 
                 <div class="col">
-                  <div class="form-group" v-if="action === 'update'">
-                    <div class="row">
-                      <label class="form-control-label" for="input-nama-petugas">Nama Petugas</label>
-                      <select id="input-nama-petugas" class="form-control" v-model="id_petugas">
-                          <option value="" disabled selected>Pilih Petugas</option>
-                          <option v-for="(petugas, index) in petugas" :key="index" :value="petugas.id_petugas">{{petugas.nama_petugas}} - {{petugas.level.toUpperCase()}}</option>
-                      </select>
-                    </div>
-                  </div>
                   <div class="form-group">
                     <div class="row">
                       <label class="form-control-label" for="input-nama-siswa">Nama Siswa</label>
                       <select id="input-nama-siswa" class="form-control" v-model="nisn">
                           <option value="" disabled selected>Pilih Siswa</option>
                           <option v-for="(siswa, index) in siswa" :key="index" :value="siswa.nisn" >{{siswa.nama}} - <span v-if="siswa.kelas">{{siswa.kelas.nama_kelas}} {{siswa.kelas.kompetensi_keahlian}}</span> <span v-else>(Kelas belum ditambahkan)</span></option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group" >
+                    <div class="row">
+                      <label class="form-control-label" for="input-nama-petugas">Nama Petugas</label>
+                      <select id="input-nama-petugas" class="form-control" v-model="id_petugas">
+                          <option value="" disabled selected>Pilih Petugas</option>
+                          <option v-for="(petugas, index) in petugas" :key="index" :value="petugas.id_petugas">{{petugas.nama_petugas}} - {{petugas.level.toUpperCase()}}</option>
                       </select>
                     </div>
                   </div>
@@ -336,7 +369,6 @@
     </div>
         </section>
     </vue-html2pdf>
-<!-- <pre>{{date}}</pre> -->
       </div>
 </template>
 
@@ -416,6 +448,7 @@ export default {
             this.id_pembayaran = this.pembayaran[index].id_pembayaran
             this.axios.get('pembayaran/'+this.id_pembayaran).then(response => {
                 this.detailPembayaran = response.data
+                this.date = this.detailPembayaran.tahun_dibayar +'-0'+this.detailPembayaran.bulan_dibayar+'-'+this.detailPembayaran.tgl_bayar
             }).catch(error => {
               console.log(error.response);
             })
@@ -453,7 +486,7 @@ export default {
           this.id_petugas = this.pembayaran[index].id_petugas
           this.nisn = this.pembayaran[index].nisn
           this.id_spp = this.pembayaran[index].id_spp
-          this.date = this.pembayaran[index].tahun_dibayar +'-'+this.pembayaran[index].bulan_dibayar+'-'+this.pembayaran[index].tgl_bayar
+          this.date = this.pembayaran[index].tahun_dibayar +'-0'+this.pembayaran[index].bulan_dibayar+'-'+this.pembayaran[index].tgl_bayar
           // this.tanggal = this.pembayaran[index].tgl_bayar
           // this.bulan = this.pembayaran[index].bulan_dibayar
           // this.tahun = this.pembayaran[index].tahun_dibayar

@@ -105,7 +105,7 @@ export default {
             .then(response => {
                 this.message = response.data.message
                 console.log(response.data);
-                // this.$router.push('/login')
+                this.$router.push('/login')
                 this.info = false
             }).catch(error => {
                 this.message = error.response

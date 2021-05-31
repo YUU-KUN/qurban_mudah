@@ -127,7 +127,7 @@ export default {
       this.name = localStorage.getItem('Name').toUpperCase()
     },
     getProfile() {
-      this.axios.get('user').then(response => {
+      this.axios.get('getAkunAdmin').then(response => {
         this.profile = response.data
       })
     },

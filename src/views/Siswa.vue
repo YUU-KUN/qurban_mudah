@@ -2,6 +2,18 @@
   <div class="row">
         <div class="col">
           <div class="card">
+            <div v-if="siswa.length == 0">
+              <div class="card-header">
+                <div class="col" style="text-align:center;  margin-bottom:50px; ">
+                  <!-- <div style="height: 100%; display:block; padding:auto 0"> -->
+                    <img src="../../public/assets/img/theme/vue.jpg" alt="" srcset="">
+                    <p>Ups. Belum ada data siswa nih..</p>
+                    <button class="btn btn-success" @click="createSiswa" data-toggle="modal" data-target="#modalSiswa"><span class="alert-icon"><i class="ni ni-fat-add"></i></span>Siswa</button>
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+            <div v-else>
             <div v-if="siswa == ''">
               <content-loader
                   viewBox="0 0 476 124"
@@ -15,7 +27,6 @@
                   <rect x="20" y="88" rx="3" ry="3" width="178" height="6" />
                 </content-loader>
             </div>
-            <div v-else>
             <!-- Card header -->
             <div class="card-header border-0">
               <div class="alert alert-dismissible fade show" :class="alertVariant" role="alert" v-if="alert">
@@ -136,8 +147,16 @@
           </div>
         </div>
       </div>
+        <!-- END MODAL -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-      <div class="modal fade" id="modalSiswa" tabindex="-1" role="dialog" aria-labelledby="modalEditSiswaLabel" aria-hidden="true">
+            </div>
+            <!-- <pre>{{siswa}}</pre> -->
+            <!-- MODAL SISWA -->
+            <div class="modal fade" id="modalSiswa" tabindex="-1" role="dialog" aria-labelledby="modalEditSiswaLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -202,19 +221,10 @@
               <button type="button" @click="save" :class="buttonClass" data-dismiss="modal"><span v-if="action === 'create'" >Tambah</span> <span v-else>Edit</span>!</button>
               </form>
             </div>
-            <!-- <div class="modal-footer">
-            </div> -->
           </div>
         </div>
       </div>
-        <!-- END MODAL -->
-                  </tr>
-                </tbody>
-              </table>
-            </div>
 
-            </div>
-            <!-- <pre>{{siswa}}</pre> -->
           </div>
         </div>
 

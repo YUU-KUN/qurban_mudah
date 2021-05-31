@@ -2,6 +2,31 @@
   <div class="row">
         <div class="col">
           <div class="card">
+            <div v-if="spp.length == 0">
+              <div class="card-header">
+                <div class="col" style="text-align:center;  margin-bottom:50px; ">
+                  <!-- <div style="height: 100%; display:block; padding:auto 0"> -->
+                    <img src="../../public/assets/img/theme/vue.jpg" alt="" srcset="">
+                    <p>Ups. Belum ada data SPP nih..</p>
+                    <button class="btn btn-success" @click="createSPP" data-toggle="modal" data-target="#modalSPP"><span class="alert-icon"><i class="ni ni-fat-add"></i></span>SPP</button>
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <div v-if="spp == ''">
+              <content-loader
+                  viewBox="0 0 476 124"
+                  primaryColor="#f3f3f3"
+                  secondaryColor="#cccccc"
+                >
+                  <rect x="10" y="8" rx="3" ry="3" width="65" height="6" />
+                  <rect x="10" y="26" rx="3" ry="3" width="52" height="6" />
+                  <rect x="20" y="56" rx="3" ry="3" width="300" height="6" />
+                  <rect x="20" y="72" rx="3" ry="3" width="300" height="6" />
+                  <rect x="20" y="88" rx="3" ry="3" width="178" height="6" />
+                </content-loader>
+            </div>
             <!-- Card header -->
             <div class="card-header border-0">
               <div class="alert alert-dismissible fade show" :class="alertVariant" role="alert" v-show="alert">
@@ -35,7 +60,7 @@
                       {{spp.tahun}}
                     </td>
                     <td>
-                      {{spp.nominal}}
+                      {{spp.nominal | rupiah}}
                     </td>
                     <td>
                         <button class="btn btn-success" data-toggle="modal" :data-target="'#modaldetailSPP'+index" @click="getdetailSPP(index)">Detail</button>
@@ -43,41 +68,55 @@
                         <button class="btn btn-danger" @click="deleteSPP(index)">Delete</button>
                     </td>
 
-                     <!--MODAL -->
-      <div class="modal fade" :id="'modaldetailSPP'+index" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-          <div class="card card-profile">
-            <img src="../../public/assets//img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
-            <div class="row justify-content-center">
-              <div class="col-lg-3 order-lg-2">
-                <div class="card-profile-image">
-                  <a href="#">
-                    <img src="../../public/assets/img/theme/team-4.jpg" class="rounded-circle">
-                  </a>
-                </div>
-              </div>
+      <!-- MODAL DETAIL -->
+      <div class="modal fade" :id="'modaldetailSPP'+index" tabindex="-1" role="dialog" aria-labelledby="modalDetailSPP" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalDetailSPP"><span v-if="action === 'create'">Tambah</span> <span v-else>Edit</span> SPP</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-              <div class="d-flex justify-content-between">
-                <br>
-              </div>
-            </div>
-            <div class="card-body pt-0">
-              <div class="text-center">
-                <h5 class="h3">
-                  {{detailSPP.tahun}}<span class="font-weight-light">, {{detailSPP.nominal}}</span>
-                </h5>
-                <div class="h5 font-weight-300">
-                  <i class="ni location_pin mr-2"></i>
-                  <a href="" class="btn btn-sm btn-default">{{detailSPP.nominal}}</a>
+            <div class="modal-body">
+              <form> 
+                <div class="col">
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="form-control-label" for="input-tahun-spp">Tahun SPP</label>
+                      <input type="text" id="input-tahun-spp" class="form-control" placeholder="2021" v-model="detailSPP.tahun" disabled>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                          <label class="form-control-label" for="input-nominal-spp">Nominal SPP</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text sm" >Rp</span>
+                            </div>
+                            <input type="text" id="input-nominal-spp" class="form-control" placeholder="500000" v-model="detailSPP.nominal" disabled>
+                            <div class="input-group-append">
+                              <span class="input-group-text">,00</span>
+                            </div>
+                          </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+              </form>
             </div>
           </div>
         </div>
       </div>
+        <!-- END MODAL -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            </div>
+            <!-- <pre>{{detailSPP}}</pre> -->
 
-      <div class="modal fade" id="modalSPP" tabindex="-1" role="dialog" aria-labelledby="modalEditSPPLabel" aria-hidden="true">
+            <div class="modal fade" id="modalSPP" tabindex="-1" role="dialog" aria-labelledby="modalEditSPPLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -119,12 +158,7 @@
           </div>
         </div>
       </div>
-        <!-- END MODAL -->
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- <pre>{{detailSPP}}</pre> -->
+
           </div>
         </div>
 
